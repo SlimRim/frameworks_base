@@ -2638,10 +2638,22 @@ public final class Settings {
         public static final String PIE_SIZE = "pie_size";
 
         /**
-         * Relative pie trigger size
+         * Relative pie trigger thickness
          * @hide
          */
-        public static final String PIE_TRIGGER_SIZE = "pie_trigger_size";
+        public static final String PIE_TRIGGER_THICKNESS = "pie_trigger_thickness";
+
+        /**
+         * Relative pie trigger height for left and right trigger
+         * @hide
+         */
+        public static final String PIE_TRIGGER_HEIGHT = "pie_trigger_height";
+
+        /**
+         * Pie trigger vertical gravity
+         * @hide
+         */
+        public static final String PIE_TRIGGER_GRAVITY_LEFT_RIGHT = "pie_trigger_gravity_left_right";
 
         /**
          * Show pie trigger
@@ -2776,6 +2788,61 @@ public final class Settings {
         * @hide
         */
         public static final String PIE_LONG_PRESS_ENABLE = "pie_long_press_enable";
+
+        /**
+         * @hide
+         */
+        public static final String PIE_SECOND_LAYER_ACTIVE = "pie_second_layer_active";
+
+        /**
+         * @hide
+         */
+        public static final String PIE_BUTTONS_QTY_SECOND_LAYER = "pie_buttons_qty_second_layer";
+
+        /**
+         * @hide
+         */
+        public static final String[] PIE_CUSTOM_ACTIVITIES_SECOND_LAYER = new String[] {
+            "pie_custom_intent_sec_0",
+            "pie_custom_intent_sec_1",
+            "pie_custom_intent_sec_2",
+            "pie_custom_intent_sec_3",
+            "pie_custom_intent_sec_4",
+            "pie_custom_intent_sec_5",
+            "pie_custom_intent_sec_6",
+        };
+
+        /**
+         * @hide
+         */
+        public static final String[] PIE_LONGPRESS_ACTIVITIES_SECOND_LAYER = new String[] {
+            "pie_longpress_intent_sec_0",
+            "pie_longpress_intent_sec_1",
+            "pie_longpress_intent_sec_2",
+            "pie_longpress_intent_sec_3",
+            "pie_longpress_intent_sec_4",
+            "pie_longpress_intent_sec_5",
+            "pie_longpress_intent_sec_6",
+        };
+
+        /**
+         * @hide
+         */
+        public static final String[] PIE_CUSTOM_ICONS_SECOND_LAYER = new String[] {
+            "pie_custom_icon_sec_0",
+            "pie_custom_icon_sec_1",
+            "pie_custom_icon_sec_2",
+            "pie_custom_icon_sec_3",
+            "pie_custom_icon_sec_4",
+            "pie_custom_icon_sec_5",
+            "pie_custom_icon_sec_6",
+        };
+
+       /**
+        *
+        * @hide
+        */
+        public static final String PIE_LONG_PRESS_ENABLE_SECOND_LAYER = "pie_long_press_enable_second_layer";
 
         /**
          * Quick Settings Panel Tiles to Use
@@ -3653,6 +3720,15 @@ public final class Settings {
           * @hide
           */
          public static final String KEY_APP_SWITCH_LONG_PRESS_ACTION = "key_app_switch_long_press_action";
+
+        /**
+        * MediaScanner behavior on boot.
+        * 0 = enabled
+        * 1 = ask (notification)
+        * 2 = disabled
+        * @hide
+        */
+        public static final String MEDIA_SCANNER_ON_BOOT = "media_scanner_on_boot";
 
         /**
          * Control the display of the action overflow button within app UI.

@@ -132,7 +132,7 @@
     <string name="screen_lock">Verrouillage de l\'écran</string>
     <string name="power_off">Éteindre</string>
     <string name="reboot_system" product="tablet">Redémarrer la tablette</string>
-    <string name="reboot_system" product="default">Redémarrer la tablette</string>
+    <string name="reboot_system" product="default">Redémarrer le téléphone</string>
     <string name="global_action_screenshot">Capture d\'écran</string>
     <string name="global_actions_toggle_expanded_desktop_mode">Bureau étendu</string>
     <string name="global_actions_expanded_desktop_mode_on_status">Activé</string>
@@ -152,7 +152,7 @@
     <string name="shutdown_confirm" product="tablet">Votre téléphone va s\'éteindre.</string>
     <string name="shutdown_confirm" product="default">Votre téléphone va s\'éteindre.</string>
     <string name="shutdown_confirm_reboot" product="tablet">Votre tablette va redémarrer maintenant.</string>
-    <string name="shutdown_confirm_reboot" product="default">Votre tablette va redémarrer maintenant.</string>
+    <string name="shutdown_confirm_reboot" product="default">Votre téléphone va redémarrer maintenant.</string>
     <string name="shutdown_confirm_question">Voulez-vous éteindre l\'appareil ?</string>
     <string name="shutdown_confirm_reboot_question">Voulez-vous redémarrer ?</string>
     <string name="reboot_safemode_title">Redémarrer en mode sans échec</string>
@@ -734,7 +734,7 @@
     <string name="lockscreen_password_wrong">Veuillez réessayer.</string>
     <string name="faceunlock_multiple_failures">Nombre maximal autorisé de tentatives Face Unlock atteint.</string>
     <string name="lockscreen_plugged_in">En charge (<xliff:g id="NUMBER">%d</xliff:g><xliff:g id="PERCENT">%%</xliff:g>)</string>
-    <string name="lockscreen_discharging">Sur batterie, <xliff:g id="number"> %d </xliff:g> <xliff:g id="percent"> % </xliff:g></string>
+    <string name="lockscreen_discharging">Sur batterie, <xliff:g id="number">%d</xliff:g><xliff:g id="percent">%%</xliff:g></string>
     <string name="lockscreen_charged">Chargé</string>
     <string name="lockscreen_battery_short"><xliff:g id="NUMBER">%d</xliff:g> <xliff:g id="PERCENT">%%</xliff:g></string>
     <string name="lockscreen_low_battery">Branchez votre chargeur.</string>
@@ -980,10 +980,8 @@
     <string name="chooseActivity">Sélectionnez une action</string>
     <string name="chooseUsbActivity">Sélectionnez une application pour le périphérique de stockage USB</string>
     <string name="noApplications">Aucune application ne peut effectuer cette action.</string>
-    <string name="aerr_title">[empty string]</string>
     <string name="aerr_application">L\'application \"<xliff:g id="APPLICATION">%1$s</xliff:g>\" s\'est arrêtée.</string>
     <string name="aerr_process">Malheureusement, le processus <xliff:g id="PROCESS">%1$s</xliff:g> s\'est arrêté.</string>
-    <string name="anr_title">[empty string]</string>
     <string name="anr_activity_application">L\'application <xliff:g id="APPLICATION">%2$s</xliff:g> ne répond pas.\"\n\n\"Voulez-vous quitter ?</string>
     <string name="anr_activity_process">L\'activité <xliff:g id="ACTIVITY">%1$s</xliff:g> ne répond pas.\"\n\n\"Voulez-vous quitter ?</string>
     <string name="anr_application_process">L\'application <xliff:g id="APPLICATION">%1$s</xliff:g> ne répond pas. Voulez-vous quitter ?</string>
@@ -1111,7 +1109,6 @@
     <string name="extmedia_format_button_format">Formater</string>
     <string name="adb_active_notification_title">Débogage android activé</string>
     <string name="adb_active_notification_message">Désactiver le débogage android (adb).</string>
-    <string name="locale_replacement">"[empty string]"</string>
     <string name="select_input_method">Sélectionner le mode de saisie</string>
     <string name="configure_input_methods">Configurer les modes de saisie</string>
     <string name="use_physical_keyboard">Clavier physique</string>
