@@ -1914,7 +1914,7 @@ public final class Settings {
          * Whether to prevent loud volume levels when headset is first plugged in.
          * @hide
          */
-        public static final String SAFE_HEADSET_VOLUME_RESTORE = "safe_headset_volume_restore";
+        public static final String SAFE_HEADSET_VOLUME = "safe_headset_volume";
 
         /**
          * Master volume (float in the range 0.0f to 1.0f).
@@ -2585,6 +2585,12 @@ public final class Settings {
         public static final String PIE_CONTROLS = "pie_controls";
 
         /**
+         * Whether right edge PIE is mirrored or not
+         * @hide
+         */
+        public static final String PIE_MIRROR_RIGHT = "pie_mirror_right";
+
+        /**
          * Pie show text (0 or 1)
          * @hide
          */
@@ -2618,17 +2624,6 @@ public final class Settings {
          * @hide
          */
         public static final String PIE_GRAVITY = "pie_gravity";
-
-        /**
-         * Mask for the locations of the pie for certain UI situations
-         * (1<<0) = LEFT
-         * (1<<1) = BOTTOM
-         * (1<<2) = RIGHT
-         * (1<<3) = TOP
-         * Default: LEFT
-         * @hide
-         */
-        public static final String PIE_TRIGGER_MASK = "pie_trigger_mask";
 
         /**
          * Relative pie size (fraction)
@@ -3303,7 +3298,7 @@ public final class Settings {
          *
          * @hide
          */
-        public static final String TOGGLE_NOTIFICATION_SHADE = "toggle_notification_shade";
+        public static final String TOGGLE_NOTIFICATION_AND_QS_SHADE = "toggle_notification_and_qs_shade";
 
          /**
          * Whether Expanded desktop is currently running or not
@@ -3528,12 +3523,6 @@ public final class Settings {
           * @hide
           */
         public static final String LOCKSCREEN_ALWAYS_SHOW_BATTERY = "lockscreen_always_show_battery";
-
-        /**
-         * Show the pending notification counts as overlays on the status bar
-         * @hide
-         */
-        public static final String STATUS_BAR_NOTIF_COUNT = "status_bar_notif_count";
 
         /**
          * Show the pending notification counts as overlays on the status bar
@@ -3997,6 +3986,13 @@ public final class Settings {
          * @hide
          */
         public static final String POWER_UI_LOW_BATTERY_WARNING_POLICY = "power_ui_low_battery_warning_policy";
+
+        /**
+         * Volume key controls ringtone or media sound stream
+         *
+         * @hide
+         */
+        public static final String VOLUME_KEYS_CONTROL_RING_STREAM = "volume_keys_control_ring_stream";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
