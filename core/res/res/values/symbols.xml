@@ -1862,6 +1862,9 @@
   <!-- Hardware Key ReMapping -->
   <java-symbol type="integer" name="config_deviceHardwareKeys" />
 
+  <!-- Notification vibrate alert during call -->
+  <java-symbol type="array" name="config_notificationNoAlertsVibePattern" />
+
   <!-- Power menu -->
   <java-symbol type="string" name="global_action_screenshot" />
   <java-symbol type="string" name="global_action_choose_profile" />
@@ -1881,6 +1884,8 @@
   <java-symbol type="string" name="reboot_system" />
   <java-symbol type="string" name="wildcardProfile" />
   <java-symbol type="xml" name="profile_default" />
+  <java-symbol type="string" name="profile_picker_title" />
+  <java-symbol type="string" name="profile_none" />
 
   <!-- Power widget -->
   <java-symbol type="string" name="hour" />
@@ -1922,4 +1927,8 @@
   <!-- Panel auto brightness -->
   <java-symbol type="integer" name="config_panelAutoBrightnessValue" />
 
+  <!-- Privacy Guard -->
+  <java-symbol type="string" name="privacy_guard_notification" />
+  <java-symbol type="string" name="privacy_guard_notification_detail" />
+  <java-symbol type="drawable" name="stat_notify_privacy_guard" />
 </resources>

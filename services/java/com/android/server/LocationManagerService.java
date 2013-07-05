@@ -506,7 +506,7 @@ public class LocationManagerService extends ILocationManager.Stub implements Run
                 }
             } else {
                 Intent statusChanged = new Intent();
-                statusChanged.putExtras(extras);
+                statusChanged.putExtras(new Bundle(extras));
                 statusChanged.putExtra(LocationManager.KEY_STATUS_CHANGED, status);
                 try {
                     synchronized (this) {
@@ -541,7 +541,7 @@ public class LocationManagerService extends ILocationManager.Stub implements Run
                 }
             } else {
                 Intent locationChanged = new Intent();
-                locationChanged.putExtra(LocationManager.KEY_LOCATION_CHANGED, location);
+                locationChanged.putExtra(LocationManager.KEY_LOCATION_CHANGED, new Location(location));
                 try {
                     synchronized (this) {
                         // synchronize to ensure incrementPendingBroadcastsLocked()
@@ -982,7 +982,8 @@ public class LocationManagerService extends ILocationManager.Stub implements Run
 
         if (records != null) {
             for (UpdateRecord record : records) {
-                if (UserHandle.getUserId(record.mReceiver.mUid) == mCurrentUserId) {
+                if (UserHandle.getUserId(record.mReceiver.mUid) == mCurrentUserId &&
+                        !mBlacklist.isBlacklisted(record.mReceiver.mPackageName)) {
                     LocationRequest locationRequest = record.mRequest;
                     providerRequest.locationRequests.add(locationRequest);
                     if (locationRequest.getInterval() < providerRequest.interval) {
