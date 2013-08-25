@@ -552,7 +552,7 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
     }
 
     private boolean isKeyguardEnabled() {
-        return ((mDisabledFlags & View.STATUS_BAR_DISABLE_HOME) != 0) && !((mDisabledFlags & View.STATUS_BAR_DISABLE_SEARCH) != 0);
+        return ((mDisabledFlags & View.STATUS_BAR_DISABLE_HOME) != 0);
     }
 
     private void updateKeyguardAlpha() {
@@ -574,8 +574,8 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
         final boolean disableRecent = ((disabledFlags & View.STATUS_BAR_DISABLE_RECENT) != 0);
         final boolean disableBack = ((disabledFlags & View.STATUS_BAR_DISABLE_BACK) != 0)
                 && ((mNavigationIconHints & StatusBarManager.NAVIGATION_HINT_BACK_ALT) == 0);
-        final boolean disableSearch = ((disabledFlags & View.STATUS_BAR_DISABLE_SEARCH) != 0);
-        final boolean keygaurdProbablyEnabled = isKeyguardEnabled();
+        final boolean disableSearch = !hasNavringTargets();
+        final boolean keyguardProbablyEnabled = isKeyguardEnabled() && hasNavringTargets();
 
         if (SLIPPERY_WHEN_DISABLED) {
             setSlippery(disableHome && disableRecent && disableBack && disableSearch);
@@ -607,7 +607,18 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
             }
         }
 
-        getSearchLight().setVisibility(keygaurdProbablyEnabled ? View.VISIBLE : View.GONE);
+        View searchLight = getSearchLight();
+        if (searchLight != null) {
+            searchLight.setVisibility(keyguardProbablyEnabled ? View.VISIBLE : View.GONE);
+            if (mNavBarButtonColor == -1) {
+                ((ImageView) searchLight).setColorFilter(null);
+            } else {
+                ((ImageView) searchLight).setColorFilter(mNavBarButtonColor, Mode.SRC_ATOP);
+            }
+            ((ImageView) searchLight).setAlpha((1 - (Settings.System.getFloat(
+                mContext.getContentResolver(),
+                Settings.System.NAVIGATION_BAR_BUTTON_ALPHA, 0.3f))));
+        }
         updateKeyguardAlpha();
     }
 
@@ -1005,6 +1016,12 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
 
     private void postCheckForInvalidLayout(final String how) {
         mHandler.obtainMessage(MSG_CHECK_INVALID_LAYOUT, 0, 0, how).sendToTarget();
+    }
+
+    private boolean hasNavringTargets() {
+        ArrayList<ButtonConfig> buttonsConfig =
+            ButtonsHelper.getNavRingConfig(mContext);
+        return buttonsConfig.size() > 0;
     }
 
 }
