@@ -44,6 +44,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.media.RemoteControlClient;
+import android.os.Bundle;
 import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -64,6 +65,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.RemoteViews.OnClickHandler;
 
 import com.android.internal.R;
+import com.android.internal.app.ThemeUtils;
 import com.android.internal.policy.impl.keyguard.KeyguardSecurityModel.SecurityMode;
 import com.android.internal.policy.impl.keyguard.KeyguardUpdateMonitor.DisplayClientState;
 import com.android.internal.widget.LockPatternUtils;
@@ -1019,7 +1021,7 @@ public class KeyguardHostView extends KeyguardViewBase {
         }
         int layoutId = getLayoutIdFor(securityMode);
         if (view == null && layoutId != 0) {
-            final LayoutInflater inflater = LayoutInflater.from(mContext);
+            final LayoutInflater inflater = LayoutInflater.from(ThemeUtils.createUiContext(mContext));
             if (DEBUG) Log.v(TAG, "inflating id = " + layoutId);
             View v = inflater.inflate(layoutId, mSecurityViewContainer, false);
             mSecurityViewContainer.addView(v);
@@ -1194,7 +1196,7 @@ public class KeyguardHostView extends KeyguardViewBase {
 
         if (Settings.System.getIntForUser(mContext.getContentResolver(),
                 Settings.System.LOCKSCREEN_MAXIMIZE_WIDGETS, 0, UserHandle.USER_CURRENT) == 1) {
-            mSlidingChallengeLayout.showChallenge(false);
+            mSlidingChallengeLayout.fadeOutChallenge();
         }
     }
 
@@ -1231,6 +1233,10 @@ public class KeyguardHostView extends KeyguardViewBase {
         AppWidgetProviderInfo appWidgetInfo = mAppWidgetManager.getAppWidgetInfo(appId);
         if (appWidgetInfo != null) {
             AppWidgetHostView view = mAppWidgetHost.createView(mContext, appId, appWidgetInfo);
+            Bundle options = new Bundle();
+            options.putInt(AppWidgetManager.OPTION_APPWIDGET_HOST_CATEGORY,
+                AppWidgetProviderInfo.WIDGET_CATEGORY_KEYGUARD);
+            view.updateAppWidgetOptions(options);
             addWidget(view, pageIndex);
             return true;
         } else {
