@@ -127,7 +127,6 @@ import android.os.SystemProperties;
 import android.os.UpdateLock;
 import android.os.UserHandle;
 import android.provider.Settings;
-import android.provider.Telephony.Sms.Intents;
 import android.text.format.Time;
 import android.util.EventLog;
 import android.util.Log;
@@ -1403,6 +1402,21 @@ public final class ActivityManagerService  extends ActivityManagerNative
                 timeoutUserSwitch((UserStartedState)msg.obj, msg.arg1, msg.arg2);
                 break;
             }
+            case IMMERSIVE_MODE_LOCK_MSG: {
+                final boolean nextState = (msg.arg1 != 0);
+                if (mUpdateLock.isHeld() != nextState) {
+                    if (DEBUG_IMMERSIVE) {
+                        final ActivityRecord r = (ActivityRecord) msg.obj;
+                        Slog.d(TAG, "Applying new update lock state '" + nextState + "' for " + r);
+                    }
+                    if (nextState) {
+                        mUpdateLock.acquire();
+                    } else {
+                        mUpdateLock.release();
+                    }
+                }
+                break;
+            }
             case POST_PRIVACY_NOTIFICATION_MSG: {
                 INotificationManager inm = NotificationManager.getService();
                 if (inm == null) {
@@ -1417,15 +1431,20 @@ public final class ActivityManagerService  extends ActivityManagerNative
 
                 try {
                     Context context = mContext.createPackageContext(process.info.packageName, 0);
-                    String text = mContext.getString(R.string.privacy_guard_notification_detail,
+
+                    String text = mContext.getString(
+                            msg.arg1 == AppOpsManager.PRIVACY_GUARD_ENABLED ?
+                            R.string.privacy_guard_notification_detail
+                            : R.string.privacy_guard_custom_notification_detail,
                             context.getApplicationInfo().loadLabel(context.getPackageManager()));
+
                     String title = mContext.getString(R.string.privacy_guard_notification);
 
-                    Intent infoIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                    Intent infoIntent = new Intent(Settings.ACTION_APP_OPS_DETAILS_SETTINGS,
                             Uri.fromParts("package", root.packageName, null));
 
                     Notification notification = new Notification();
-                    notification.icon = com.android.internal.R.drawable.stat_notify_privacy_guard;
+                    notification.icon = AppOpsManager.getPrivacyGuardIconResId(msg.arg1);
                     notification.when = 0;
                     notification.flags = Notification.FLAG_ONGOING_EVENT;
                     notification.priority = Notification.PRIORITY_LOW;
@@ -1466,21 +1485,6 @@ public final class ActivityManagerService  extends ActivityManagerNative
                 } catch (RemoteException e) {
                 }
             } break;
-            case IMMERSIVE_MODE_LOCK_MSG: {
-                final boolean nextState = (msg.arg1 != 0);
-                if (mUpdateLock.isHeld() != nextState) {
-                    if (DEBUG_IMMERSIVE) {
-                        final ActivityRecord r = (ActivityRecord) msg.obj;
-                        Slog.d(TAG, "Applying new update lock state '" + nextState + "' for " + r);
-                    }
-                    if (nextState) {
-                        mUpdateLock.acquire();
-                    } else {
-                        mUpdateLock.release();
-                    }
-                }
-                break;
-            }
             }
         }
     };
@@ -7727,30 +7731,6 @@ public final class ActivityManagerService  extends ActivityManagerNative
         }
     }
 
-    public boolean isPrivacyGuardEnabledForProcess(int pid) {
-        ProcessRecord proc;
-        synchronized (mPidsSelfLocked) {
-            proc = mPidsSelfLocked.get(pid);
-        }
-        if (proc == null) {
-            return false;
-        }
-        try {
-            return AppGlobals.getPackageManager().getPrivacyGuardSetting(
-                    proc.info.packageName, proc.userId);
-        } catch (RemoteException e) {
-            Log.e(TAG, e.getMessage(), e);
-        }
-        return false;
-    }
-
-    public boolean isFilteredByPrivacyGuard(String intent) {
-        return  Intents.SMS_RECEIVED_ACTION.equals(intent) ||
-                Intents.DATA_SMS_RECEIVED_ACTION.equals(intent) ||
-                Intents.SMS_EMERGENCY_CB_RECEIVED_ACTION.equals(intent) ||
-                Intents.SMS_CB_RECEIVED_ACTION.equals(intent);
-    }
-
     public void registerProcessObserver(IProcessObserver observer) {
         enforceCallingPermission(android.Manifest.permission.SET_ACTIVITY_WATCHER,
                 "registerProcessObserver()");
@@ -11825,8 +11805,12 @@ public final class ActivityManagerService  extends ActivityManagerNative
                         "Receiver requested to register for user " + userId
                         + " was previously registered for user " + rl.userId);
             }
+
+            boolean isSystem = callerApp != null ?
+                    (callerApp.info.flags & ApplicationInfo.FLAG_SYSTEM) != 0 : false;
+
             BroadcastFilter bf = new BroadcastFilter(filter, rl, callerPackage,
-                    permission, callingUid, userId, (callerApp.info.flags & ApplicationInfo.FLAG_SYSTEM) != 0);
+                    permission, callingUid, userId, isSystem);
             rl.add(bf);
             if (!bf.debugCheck()) {
                 Slog.w(TAG, "==> For Dynamic broadast");
